@@ -61,10 +61,9 @@ export default function App() {
   const [userPhoto, setUserPhoto] = useState(null);
   const [friendPhoto, setFriendPhoto] = useState(null);
   const [hasStarted, setHasStarted] = useState(false);
-  const dateRange = generateDateRange("2023-11-01", "2024-03-31");
+  const dateRange = generateDateRange("2019-01-01", "2024-03-31");
   const [sliderIndex, setSliderIndex] = useState(0);
 
-  // ✅ Generate notches INSIDE the component, AFTER dateRange is defined
   const allPhotoDates = [...mockPhotos.user, ...mockPhotos.friend]
     .map(p => p.date)
     .filter((value, index, self) => self.indexOf(value) === index);
