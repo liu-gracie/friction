@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PhotoDisplay from "./components/PhotoDisplay";
-import "./index.css"; 
+import "./index.css";
 
 const mockPhotos = {
   user: [
@@ -57,12 +57,21 @@ function generateDateRange(startDate, endDate) {
 }
 
 export default function App() {
+  const [hasStarted, setHasStarted] = useState(false);
+  const [infoSubmitted, setInfoSubmitted] = useState(false);
+  const [showError, setShowError] = useState(false); 
+
+  const [userName, setUserName] = useState("");
+  const [friendName, setFriendName] = useState("");
+  const [userBirthday, setUserBirthday] = useState("");
+  const [friendBirthday, setFriendBirthday] = useState("");
+
   const [inputDate, setInputDate] = useState("");
+  const [sliderIndex, setSliderIndex] = useState(0);
   const [userPhoto, setUserPhoto] = useState(null);
   const [friendPhoto, setFriendPhoto] = useState(null);
-  const [hasStarted, setHasStarted] = useState(false);
+
   const dateRange = generateDateRange("2019-01-01", "2024-03-31");
-  const [sliderIndex, setSliderIndex] = useState(0);
 
   const allPhotoDates = [...mockPhotos.user, ...mockPhotos.friend]
     .map(p => p.date)
@@ -81,12 +90,44 @@ export default function App() {
 
   if (!hasStarted) {
     return (
-      <div style={{ textAlign: "center", padding: "50px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+      <div className="centered">
         <h1 className="floating">how are you my friend? <br /> and where have you been?</h1>
         <p className="body-text">while the universe is so big, I'm glad to exist at the same time with you</p>
         <button className="button" onClick={() => setHasStarted(true)}>begin</button>
         <div className="bottom">
-          <p className="small-text">please note, this website requires access to your photo gallery to continue. by clicking on the "begin" button, you consent to this website accessing your photos. all photos and personal information will not be saved on this website.</p>
+          <p className="small-text">by clicking "begin" you consent to and allow this site to view your photo gallery. no data will be saved.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!infoSubmitted) {
+    return (
+      <div className="centered">
+        <h2 className="header">where did we start?</h2>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px" }}>
+          <input type="text" placeholder="Your name" value={userName} onChange={(e) => setUserName(e.target.value)} />
+          <input type="date" placeholder="Your birthday" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} />
+          <input type="text" placeholder="Friend's name" value={friendName} onChange={(e) => setFriendName(e.target.value)} />
+          <input type="date" placeholder="Friend's birthday" value={friendBirthday} onChange={(e) => setFriendBirthday(e.target.value)} />
+          <button
+            className="button"
+            onClick={() => {
+              if (userName && friendName && userBirthday && friendBirthday) {
+                setInfoSubmitted(true);
+                setShowError(false);
+              } else {
+                setShowError(true);
+              }
+            }}
+          >
+            continue ⟶
+          </button>
+          {showError && (
+            <p className="small-text" style={{ marginTop: "10px", color: "#b00020" }}>
+              please fill out all fields before continuing
+            </p>
+          )}
         </div>
       </div>
     );
@@ -99,11 +140,7 @@ export default function App() {
       <div className="slider-wrapper">
         <div className="notch-track">
           {photoNotchPositions.map((pos, idx) => (
-            <div
-              key={idx}
-              className="notch"
-              style={{ left: `${pos}%` }}
-            />
+            <div key={idx} className="notch" style={{ left: `${pos}%` }} />
           ))}
         </div>
 
@@ -125,9 +162,18 @@ export default function App() {
       </div>
 
       <div className="photos" style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "100px" }}>
-        <PhotoDisplay title="[me] during this time" photo={userPhoto} />
-        <PhotoDisplay title="[friend] during this time" photo={friendPhoto} />
+        <PhotoDisplay
+          title={userName}
+          photo={userPhoto}
+          birthday={userBirthday}
+        />
+        <PhotoDisplay
+          title={friendName}
+          photo={friendPhoto}
+          birthday={friendBirthday}
+        />
       </div>
     </div>
   );
 }
+
