@@ -105,11 +105,11 @@ export default function App() {
     return (
       <div className="centered">
         <h2 className="header">where did we start?</h2>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px" }}>
-          <input type="text" placeholder="Your name" value={userName} onChange={(e) => setUserName(e.target.value)} />
-          <input type="date" placeholder="Your birthday" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} />
-          <input type="text" placeholder="Friend's name" value={friendName} onChange={(e) => setFriendName(e.target.value)} />
-          <input type="date" placeholder="Friend's birthday" value={friendBirthday} onChange={(e) => setFriendBirthday(e.target.value)} />
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", width: "300px" }}>
+          <input type="text" placeholder="Your name" value={userName} onChange={(e) => setUserName(e.target.value)} style={{ width: "100%" }}/>
+          <input type="date" placeholder="Your birthday" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} style={{ width: "100%" }}/>
+          <input type="text" placeholder="Friend's name" value={friendName} onChange={(e) => setFriendName(e.target.value)} style={{ width: "100%" }}/>
+          <input type="date" placeholder="Friend's birthday" value={friendBirthday} onChange={(e) => setFriendBirthday(e.target.value)} style={{ width: "100%" }}/>
           <button
             className="button"
             onClick={() => {
@@ -123,11 +123,13 @@ export default function App() {
           >
             continue ⟶
           </button>
-          {showError && (
-            <p className="small-text" style={{ marginTop: "10px", color: "#b00020" }}>
-              please fill out all fields before continuing
-            </p>
-          )}
+          <div style={{ height: "20px", marginTop: "10px" }}>
+            {showError && (
+              <p className="small-text" style={{ color: "#b00020", margin: 0}}>
+                please fill out all fields before continuing
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );
