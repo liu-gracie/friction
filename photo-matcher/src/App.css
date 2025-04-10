@@ -36,31 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.floating {
-  font-size: 3rem;
-  font-weight: normal;
-  opacity: 0;
-  animation: floatFade 3s ease-in-out infinite;
-}
-
-@keyframes floatFade {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  25% {
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-10px);
-    opacity: 0.7;
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-}
